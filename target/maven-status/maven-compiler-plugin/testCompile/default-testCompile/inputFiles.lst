@@ -4,6 +4,8 @@ C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\CircuitSimulatorTe
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\CircuitTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\HalfAdderTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\InputTest.java
+C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\NandGateTest.java
+C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\NorGateTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\NotGateTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\OrGateTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\TruthTableGeneratorTest.java

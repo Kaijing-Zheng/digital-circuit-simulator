@@ -1,7 +1,9 @@
 com\circuitsim\AndGate.class
+com\circuitsim\NorGate.class
 com\circuitsim\TruthTableGenerator.class
 com\circuitsim\XorGate.class
 com\circuitsim\NotGate.class
+com\circuitsim\NandGate.class
 com\circuitsim\HalfAdder.class
 com\circuitsim\CircuitGraph.class
 com\circuitsim\CircuitSimulator.class

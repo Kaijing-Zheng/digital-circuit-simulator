@@ -6,6 +6,8 @@ C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\Component.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\Gate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\HalfAdder.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\Input.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NandGate.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NorGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NotGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\OrGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\TruthTableGenerator.java

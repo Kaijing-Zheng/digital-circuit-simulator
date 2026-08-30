@@ -1,11 +1,13 @@
 com\circuitsim\WireTest.class
 com\circuitsim\InputTest.class
+com\circuitsim\CircuitGraphTest.class
+com\circuitsim\NorGateTest.class
+com\circuitsim\XorGateTest.class
+com\circuitsim\HalfAdderTest.class
 com\circuitsim\TruthTableGeneratorTest.class
 com\circuitsim\CircuitSimulatorTest.class
-com\circuitsim\CircuitGraphTest.class
 com\circuitsim\OrGateTest.class
-com\circuitsim\XorGateTest.class
 com\circuitsim\AndGateTest.class
+com\circuitsim\NandGateTest.class
 com\circuitsim\CircuitTest.class
-com\circuitsim\HalfAdderTest.class
 com\circuitsim\NotGateTest.class
