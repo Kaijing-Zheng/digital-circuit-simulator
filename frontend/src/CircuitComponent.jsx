@@ -6,8 +6,11 @@ function CircuitComponent({
   isOutputSelected,
   isInputConnected,
   onToggleInput,
-  simulationValue
+  simulationValue,
+  onDeleteComponent
 }) {
+  console.log(component.name, typeof onDeleteComponent)
+
   function handleMouseDown(event) {
     const startMouseX = event.clientX
     const startMouseY = event.clientY
@@ -56,7 +59,10 @@ function CircuitComponent({
         onMouseDown={(event) => event.stopPropagation()}
         onDoubleClick={() => {
             if (component.type === 'INPUT') {
-            onToggleInput(component.id)
+                onToggleInput(component.id)
+            }
+            else {
+                onDeleteComponent(component.id)
             }
         }}
         >

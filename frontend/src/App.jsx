@@ -10,6 +10,13 @@ function App() {
 
   const [simulationResults, setSimulationResults] = useState({})
 
+  function clearCircuit() {
+    setComponents([])
+    setConnections([])
+    setSelectedOutput(null)
+    setSimulationResults({})
+  }
+
   function handleOutputClick(componentId) {
     console.log('Output clicked:', componentId)
 
@@ -81,6 +88,26 @@ function App() {
     }
 
     setComponents([...components, newComponent])
+  }
+
+  function deleteComponent(componentId) {
+    setComponents(
+      components.filter(
+        component => component.id !== componentId
+      )
+    )
+
+    setConnections(
+      connections.filter(
+        connection =>
+          connection.sourceId !== componentId &&
+          connection.destinationId !== componentId
+      )
+    )
+
+    if (selectedOutput === componentId) {
+      setSelectedOutput(null)
+    }
   }
 
   function moveComponent(id, x, y) {
@@ -192,6 +219,13 @@ function App() {
         >
           Simulate
         </button>
+
+        <button
+          className="clear-button"
+          onClick={clearCircuit}
+        >
+          Clear Circuit
+        </button>
       </header>
 
       <div className="main-layout">
@@ -267,12 +301,11 @@ function App() {
               onMove={moveComponent}
               onOutputClick={handleOutputClick}
               onInputClick={handleInputClick}
-              isOutputSelected={
-                selectedOutput === component.id
-              }
+              isOutputSelected={selectedOutput === component.id}
               isInputConnected={isInputConnected}
               onToggleInput={toggleInput}
               simulationValue={simulationResults[component.name]}
+              onDeleteComponent={deleteComponent}
             />
           ))}
 
