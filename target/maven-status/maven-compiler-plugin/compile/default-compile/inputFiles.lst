@@ -1,4 +1,9 @@
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\AndGate.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\ConnectionRequest.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\GateRequest.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\InputRequest.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\SimulationRequest.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\SimulationResponse.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\Circuit.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\CircuitGraph.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\CircuitSimulator.java
@@ -12,6 +17,7 @@ C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NandGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NorGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NotGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\OrGate.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\SimulationController.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\TruthTableGenerator.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\Wire.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\XorGate.java

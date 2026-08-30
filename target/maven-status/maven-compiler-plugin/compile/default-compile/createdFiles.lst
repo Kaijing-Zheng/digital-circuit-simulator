@@ -1,10 +1,16 @@
+com\circuitsim\api\SimulationResponse.class
 com\circuitsim\AndGate.class
+com\circuitsim\api\InputRequest.class
 com\circuitsim\HealthController.class
 com\circuitsim\CircuitSimulatorApplication.class
 com\circuitsim\NorGate.class
+com\circuitsim\api\GateRequest.class
+com\circuitsim\api\SimulationRequest.class
 com\circuitsim\TruthTableGenerator.class
 com\circuitsim\XorGate.class
 com\circuitsim\NotGate.class
+com\circuitsim\SimulationController.class
+com\circuitsim\api\ConnectionRequest.class
 com\circuitsim\NandGate.class
 com\circuitsim\HalfAdder.class
 com\circuitsim\CircuitGraph.class
