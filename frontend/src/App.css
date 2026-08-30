@@ -114,7 +114,8 @@ body {
 }
 
 .gate-label {
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .port {
@@ -205,4 +206,14 @@ body {
 .connected-port {
   background-color: #16a34a;
   border-color: #16a34a;
+}
+
+.gate-label {
+  text-align: center;
+}
+
+.logic-value {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: bold;
 }

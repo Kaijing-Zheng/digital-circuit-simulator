@@ -4,7 +4,9 @@ function CircuitComponent({
   onOutputClick,
   onInputClick,
   isOutputSelected,
-  isInputConnected
+  isInputConnected,
+  onToggleInput,
+  simulationValue
 }) {
   function handleMouseDown(event) {
     const startMouseX = event.clientX
@@ -49,8 +51,26 @@ function CircuitComponent({
       }}
       onMouseDown={handleMouseDown}
     >
-      <div className="gate-label">
-        {component.type}
+      <div
+        className="gate-label"
+        onMouseDown={(event) => event.stopPropagation()}
+        onDoubleClick={() => {
+            if (component.type === 'INPUT') {
+            onToggleInput(component.id)
+            }
+        }}
+        >
+        <div>
+            {component.name}
+        </div>
+
+        <div className="logic-value">
+            {component.type === 'INPUT'
+            ? component.value ? '1' : '0'
+            : simulationValue === undefined
+                ? '?'
+                : simulationValue ? '1' : '0'}
+        </div>
       </div>
 
       <div className="input-ports">

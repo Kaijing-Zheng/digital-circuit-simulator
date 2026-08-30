@@ -8,6 +8,8 @@ function App() {
   const [connections, setConnections] = useState([])
   const [selectedOutput, setSelectedOutput] = useState(null)
 
+  const [simulationResults, setSimulationResults] = useState({})
+
   function handleOutputClick(componentId) {
     console.log('Output clicked:', componentId)
 
@@ -65,9 +67,15 @@ function App() {
   }
 
   function addComponent(type) {
+    const countOfSameType = components.filter(
+      component => component.type === type
+    ).length
+
     const newComponent = {
       id: Date.now(),
       type,
+      name: `${type}${countOfSameType + 1}`,
+      value: false,
       x: 100 + components.length * 20,
       y: 100 + components.length * 20,
     }
@@ -91,12 +99,97 @@ function App() {
     )
   }
 
+  function toggleInput(componentId) {
+    setComponents(
+      components.map(component => {
+        if (component.id === componentId && component.type === 'INPUT') {
+          return {
+            ...component,
+            value: !component.value,
+          }
+        }
+
+        return component
+      })
+    )
+  }
+
+  async function simulateCircuit() {
+    const inputRequests = components
+      .filter(component => component.type === 'INPUT')
+      .map(component => ({
+        name: component.name,
+        value: component.value,
+      }))
+
+    const gateRequests = components
+      .filter(component => component.type !== 'INPUT')
+      .map(component => ({
+        name: component.name,
+        type: component.type,
+      }))
+
+    const connectionRequests = connections.map(connection => {
+      const source = components.find(
+        component => component.id === connection.sourceId
+      )
+
+      const destination = components.find(
+        component => component.id === connection.destinationId
+      )
+
+      return {
+        source: source.name,
+        destination: destination.name,
+        inputIndex: connection.inputIndex,
+      }
+    })
+
+    const outputNames = components
+      .filter(component => component.type !== 'INPUT')
+      .map(component => component.name)
+
+    const requestBody = {
+      inputs: inputRequests,
+      gates: gateRequests,
+      connections: connectionRequests,
+      outputs: outputNames,
+    }
+
+    console.log('Sending simulation request:', requestBody)
+
+    try {
+      const response = await fetch('/api/simulate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+
+      if (!response.ok) {
+        throw new Error('Simulation failed')
+      }
+
+      const result = await response.json()
+
+      console.log('Simulation result:', result)
+
+      setSimulationResults(result.outputs)
+    } catch (error) {
+      console.error('Simulation error:', error)
+    }
+  }
+
   return (
     <div className="app">
       <header className="header">
         <h1>Digital Circuit Simulator</h1>
 
-        <button className="simulate-button">
+        <button 
+          className="simulate-button"
+          onClick={simulateCircuit}
+        >
           Simulate
         </button>
       </header>
@@ -178,6 +271,8 @@ function App() {
                 selectedOutput === component.id
               }
               isInputConnected={isInputConnected}
+              onToggleInput={toggleInput}
+              simulationValue={simulationResults[component.name]}
             />
           ))}
 
