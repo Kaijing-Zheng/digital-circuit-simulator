@@ -1,18 +1,20 @@
 package com.circuitsim;
 
-public class OrGate extends Component {
+public class OrGate extends Gate {
 
-    private Component input1;
-    private Component input2;
+    public OrGate(String name) {
+        super(name, 2);
+    }
 
     public OrGate(String name, Component input1, Component input2) {
-        super(name);
-        this.input1 = input1;
-        this.input2 = input2;
+        this(name);
+
+        connectInput(0, input1);
+        connectInput(1, input2);
     }
 
     @Override
     public boolean evaluate() {
-        return input1.evaluate() || input2.evaluate();
+        return getInput(0).evaluate() || getInput(1).evaluate();
     }
 }

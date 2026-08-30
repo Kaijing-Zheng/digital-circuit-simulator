@@ -1,18 +1,20 @@
 package com.circuitsim;
 
-public class AndGate extends Component {
+public class AndGate extends Gate {
 
-    private Component input1;
-    private Component input2;
+    public AndGate(String name) {
+        super(name, 2);
+    }
 
     public AndGate(String name, Component input1, Component input2) {
-        super(name);
-        this.input1 = input1;
-        this.input2 = input2;
+        this(name);
+
+        connectInput(0, input1);
+        connectInput(1, input2);
     }
 
     @Override
     public boolean evaluate() {
-        return input1.evaluate() && input2.evaluate();
+        return getInput(0).evaluate() && getInput(1).evaluate();
     }
 }

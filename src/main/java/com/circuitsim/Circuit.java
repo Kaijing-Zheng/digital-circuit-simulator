@@ -31,7 +31,16 @@ public class Circuit {
         return components.size();
     }
 
-    public void addWire(Wire wire) {
+    public void connect(
+        Component source,
+        Gate destination,
+        int destinationInputIndex
+    ) {
+        destination.connectInput(destinationInputIndex, source);
+
+        Wire wire =
+            new Wire(source, destination, destinationInputIndex);
+
         wires.add(wire);
     }
 

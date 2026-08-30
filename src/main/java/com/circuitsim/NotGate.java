@@ -1,16 +1,19 @@
 package com.circuitsim;
 
-public class NotGate extends Component {
+public class NotGate extends Gate {
 
-    private Component input;
+    public NotGate(String name) {
+        super(name, 1);
+    }
 
     public NotGate(String name, Component input) {
-        super(name);
-        this.input = input;
+        this(name);
+
+        connectInput(0, input);
     }
 
     @Override
     public boolean evaluate() {
-        return !input.evaluate();
+        return !getInput(0).evaluate();
     }
 }

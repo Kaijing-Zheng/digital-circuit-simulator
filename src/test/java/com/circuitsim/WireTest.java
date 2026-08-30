@@ -7,15 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class WireTest {
 
     @Test
-    void wireShouldStoreSourceAndDestination() {
+    void wireShouldStoreConnectionInformation() {
         Input a = new Input("A", true);
-        Input b = new Input("B", false);
+        AndGate gate = new AndGate("AND1");
 
-        AndGate gate = new AndGate("AND1", a, b);
-
-        Wire wire = new Wire(a, gate);
+        Wire wire = new Wire(a, gate, 0);
 
         assertEquals(a, wire.getSource());
         assertEquals(gate, wire.getDestination());
+        assertEquals(0, wire.getDestinationInputIndex());
     }
 }

@@ -36,23 +36,43 @@ class CircuitTest {
     }
 
     @Test
-    void circuitShouldStoreWires() {
+    void circuitShouldConnectComponents() {
         Circuit circuit = new Circuit("Test Circuit");
 
         Input a = new Input("A", true);
-        Input b = new Input("B", false);
-        AndGate gate = new AndGate("AND1", a, b);
+        Input b = new Input("B", true);
+        AndGate gate = new AndGate("AND1");
 
         circuit.addComponent(a);
         circuit.addComponent(b);
         circuit.addComponent(gate);
 
-        Wire wire1 = new Wire(a, gate);
-        Wire wire2 = new Wire(b, gate);
-
-        circuit.addWire(wire1);
-        circuit.addWire(wire2);
+        circuit.connect(a, gate, 0);
+        circuit.connect(b, gate, 1);
 
         assertEquals(2, circuit.getWireCount());
+        assertTrue(gate.evaluate());
+    }
+
+    @Test
+    void connectedCircuitShouldUpdateWhenInputChanges() {
+        Circuit circuit = new Circuit("Test Circuit");
+
+        Input a = new Input("A", true);
+        Input b = new Input("B", false);
+        AndGate gate = new AndGate("AND1");
+
+        circuit.addComponent(a);
+        circuit.addComponent(b);
+        circuit.addComponent(gate);
+
+        circuit.connect(a, gate, 0);
+        circuit.connect(b, gate, 1);
+
+        assertFalse(gate.evaluate());
+
+        b.setValue(true);
+
+        assertTrue(gate.evaluate());
     }
 }

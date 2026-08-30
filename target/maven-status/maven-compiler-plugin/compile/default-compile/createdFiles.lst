@@ -4,6 +4,7 @@ com\circuitsim\Component.class
 com\circuitsim\OrGate.class
 com\circuitsim\Wire.class
 com\circuitsim\Input.class
+com\circuitsim\Gate.class
 com\circuitsim\XorGate.class
 com\circuitsim\NotGate.class
 com\circuitsim\Circuit.class
