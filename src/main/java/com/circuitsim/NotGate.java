@@ -5,7 +5,7 @@ import java.util.Map;
 public class NotGate extends Gate {
 
     public NotGate(String name) {
-        super(name, 1);
+        super(name, 1, 5);
     }
 
     public NotGate(String name, Component input) {

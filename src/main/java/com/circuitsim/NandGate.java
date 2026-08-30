@@ -5,7 +5,7 @@ import java.util.Map;
 public class NandGate extends Gate {
 
     public NandGate(String name) {
-        super(name, 2);
+        super(name, 2, 10);
     }
 
     public NandGate(String name, Component input1, Component input2) {

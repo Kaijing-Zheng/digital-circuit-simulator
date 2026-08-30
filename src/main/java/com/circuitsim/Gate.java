@@ -8,7 +8,15 @@ public abstract class Gate extends Component {
     private List<Component> inputs;
 
     public Gate(String name, int inputCount) {
-        super(name);
+        this(name, inputCount, 0);
+    }
+
+    public Gate(
+        String name,
+        int inputCount,
+        long propagationDelayNs
+    ) {
+        super(name, propagationDelayNs);
 
         inputs = new ArrayList<>();
 
@@ -17,9 +25,14 @@ public abstract class Gate extends Component {
         }
     }
 
-    public void connectInput(int index, Component component) {
+    public void connectInput(
+        int index,
+        Component component
+    ) {
         if (index < 0 || index >= inputs.size()) {
-            throw new IllegalArgumentException("Invalid input index");
+            throw new IllegalArgumentException(
+                "Invalid input index"
+            );
         }
 
         inputs.set(index, component);
@@ -30,7 +43,10 @@ public abstract class Gate extends Component {
 
         if (input == null) {
             throw new IllegalStateException(
-                getName() + " input " + index + " is not connected"
+                getName()
+                    + " input "
+                    + index
+                    + " is not connected"
             );
         }
 

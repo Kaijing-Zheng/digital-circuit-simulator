@@ -5,7 +5,7 @@ import java.util.Map;
 public class OrGate extends Gate {
 
     public OrGate(String name) {
-        super(name, 2);
+        super(name, 2, 10);
     }
 
     public OrGate(String name, Component input1, Component input2) {

@@ -5,7 +5,7 @@ import java.util.Map;
 public class AndGate extends Gate {
 
     public AndGate(String name) {
-        super(name, 2);
+        super(name, 2, 10);
     }
 
     public AndGate(String name, Component input1, Component input2) {

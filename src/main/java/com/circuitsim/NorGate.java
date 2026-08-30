@@ -5,7 +5,7 @@ import java.util.Map;
 public class NorGate extends Gate {
 
     public NorGate(String name) {
-        super(name, 2);
+        super(name, 2, 10);
     }
 
     public NorGate(String name, Component input1, Component input2) {

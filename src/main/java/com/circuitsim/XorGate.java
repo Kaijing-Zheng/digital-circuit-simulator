@@ -6,7 +6,7 @@ import java.util.Map;
 public class XorGate extends Gate {
 
     public XorGate(String name) {
-        super(name, 2);
+        super(name, 2, 12);
     }
 
     public XorGate(String name, Component input1, Component input2) {
