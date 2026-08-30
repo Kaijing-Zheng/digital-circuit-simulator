@@ -1,3 +1,5 @@
+import CircuitComponent from './CircuitComponent'
+
 import { useState } from 'react'
 import './App.css'
 
@@ -8,11 +10,27 @@ function App() {
     const newComponent = {
       id: Date.now(),
       type: type,
-      x: 300,
-      y: 200,
+      x: 100 + components.length * 20,
+      y: 100 + components.length * 20,
     }
 
     setComponents([...components, newComponent])
+  }
+
+  function moveComponent(id, x, y) {
+    setComponents(
+      components.map((component) => {
+        if (component.id === id) {
+          return {
+            ...component,
+            x: x,
+            y: y,
+          }
+        }
+
+        return component
+      })
+    )
   }
 
   return (
@@ -44,16 +62,11 @@ function App() {
           )}
 
           {components.map((component) => (
-            <div
+            <CircuitComponent
               key={component.id}
-              className="circuit-component"
-              style={{
-                left: component.x,
-                top: component.y,
-              }}
-            >
-              {component.type}
-            </div>
+              component={component}
+              onMove={moveComponent}
+            />
           ))}
         </main>
       </div>
