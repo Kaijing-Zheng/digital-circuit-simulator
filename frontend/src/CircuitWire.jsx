@@ -1,16 +1,15 @@
 function CircuitWire({
   source,
   destination,
-  inputIndex
+  inputIndex,
+  onDelete
 }) {
   const gateWidth = 100
   const gateHeight = 60
 
-  // Output port is centered on the right side
   const startX = source.x + gateWidth
   const startY = source.y + gateHeight / 2
 
-  // Input port is on the left side
   const endX = destination.x
 
   let endY
@@ -32,6 +31,7 @@ function CircuitWire({
       x2={endX}
       y2={endY}
       className="circuit-wire"
+      onClick={onDelete}
     />
   )
 }

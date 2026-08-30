@@ -2,7 +2,9 @@ function CircuitComponent({
   component,
   onMove,
   onOutputClick,
-  onInputClick
+  onInputClick,
+  isOutputSelected,
+  isInputConnected
 }) {
   function handleMouseDown(event) {
     const startMouseX = event.clientX
@@ -32,11 +34,11 @@ function CircuitComponent({
   }
 
   const inputCount =
-    component.type === 'NOT' ? 1 :
-    component.type === 'INPUT' ? 0 :
-    2
-
-  const hasOutput = true
+    component.type === 'NOT'
+      ? 1
+      : component.type === 'INPUT'
+        ? 0
+        : 2
 
   return (
     <div
@@ -53,22 +55,30 @@ function CircuitComponent({
 
       <div className="input-ports">
         {Array.from({ length: inputCount }).map((_, index) => (
-            <div
-                key={index}
-                className="port input-port"
-                onMouseDown={(event) => event.stopPropagation()}
-                onClick={() => onInputClick(component.id, index)}
-            />
-        ))}
-        </div>
-
-        {hasOutput && (
-        <div
-            className="port output-port"
+          <div
+            key={index}
+            className={
+              isInputConnected(component.id, index)
+                ? 'port input-port connected-port'
+                : 'port input-port'
+            }
             onMouseDown={(event) => event.stopPropagation()}
-            onClick={() => onOutputClick(component.id)}
-        />
-        )}
+            onClick={() =>
+              onInputClick(component.id, index)
+            }
+          />
+        ))}
+      </div>
+
+      <div
+        className={
+          isOutputSelected
+            ? 'port output-port selected-port'
+            : 'port output-port'
+        }
+        onMouseDown={(event) => event.stopPropagation()}
+        onClick={() => onOutputClick(component.id)}
+      />
     </div>
   )
 }

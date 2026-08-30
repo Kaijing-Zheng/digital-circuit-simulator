@@ -1,17 +1,21 @@
 import CircuitComponent from './CircuitComponent'
-
 import CircuitWire from './CircuitWire'
-
 import { useState } from 'react'
 import './App.css'
 
 function App() {
   const [components, setComponents] = useState([])
-
   const [connections, setConnections] = useState([])
   const [selectedOutput, setSelectedOutput] = useState(null)
 
   function handleOutputClick(componentId) {
+    console.log('Output clicked:', componentId)
+
+    if (selectedOutput === componentId) {
+      setSelectedOutput(null)
+      return
+    }
+
     setSelectedOutput(componentId)
   }
 
@@ -20,20 +24,50 @@ function App() {
       return
     }
 
+    if (selectedOutput === destinationId) {
+      setSelectedOutput(null)
+      return
+    }
+
+    const inputAlreadyConnected = connections.some(
+      connection =>
+        connection.destinationId === destinationId &&
+        connection.inputIndex === inputIndex
+    )
+
+    if (inputAlreadyConnected) {
+      setSelectedOutput(null)
+      return
+    }
+
     const newConnection = {
       sourceId: selectedOutput,
-      destinationId: destinationId,
-      inputIndex: inputIndex,
+      destinationId,
+      inputIndex,
     }
 
     setConnections([...connections, newConnection])
     setSelectedOutput(null)
   }
 
+  function isInputConnected(componentId, inputIndex) {
+    return connections.some(
+      connection =>
+        connection.destinationId === componentId &&
+        connection.inputIndex === inputIndex
+    )
+  }
+
+  function deleteConnection(indexToDelete) {
+    setConnections(
+      connections.filter((_, index) => index !== indexToDelete)
+    )
+  }
+
   function addComponent(type) {
     const newComponent = {
       id: Date.now(),
-      type: type,
+      type,
       x: 100 + components.length * 20,
       y: 100 + components.length * 20,
     }
@@ -43,12 +77,12 @@ function App() {
 
   function moveComponent(id, x, y) {
     setComponents(
-      components.map((component) => {
+      components.map(component => {
         if (component.id === id) {
           return {
             ...component,
-            x: x,
-            y: y,
+            x,
+            y,
           }
         }
 
@@ -71,13 +105,33 @@ function App() {
         <aside className="sidebar">
           <h2>Components</h2>
 
-          <button onClick={() => addComponent('INPUT')}>Input</button>
-          <button onClick={() => addComponent('AND')}>AND</button>
-          <button onClick={() => addComponent('OR')}>OR</button>
-          <button onClick={() => addComponent('NOT')}>NOT</button>
-          <button onClick={() => addComponent('XOR')}>XOR</button>
-          <button onClick={() => addComponent('NAND')}>NAND</button>
-          <button onClick={() => addComponent('NOR')}>NOR</button>
+          <button onClick={() => addComponent('INPUT')}>
+            Input
+          </button>
+
+          <button onClick={() => addComponent('AND')}>
+            AND
+          </button>
+
+          <button onClick={() => addComponent('OR')}>
+            OR
+          </button>
+
+          <button onClick={() => addComponent('NOT')}>
+            NOT
+          </button>
+
+          <button onClick={() => addComponent('XOR')}>
+            XOR
+          </button>
+
+          <button onClick={() => addComponent('NAND')}>
+            NAND
+          </button>
+
+          <button onClick={() => addComponent('NOR')}>
+            NOR
+          </button>
         </aside>
 
         <main className="workspace">
@@ -88,11 +142,13 @@ function App() {
           <svg className="wire-layer">
             {connections.map((connection, index) => {
               const source = components.find(
-                component => component.id === connection.sourceId
+                component =>
+                  component.id === connection.sourceId
               )
 
               const destination = components.find(
-                component => component.id === connection.destinationId
+                component =>
+                  component.id === connection.destinationId
               )
 
               if (!source || !destination) {
@@ -105,18 +161,23 @@ function App() {
                   source={source}
                   destination={destination}
                   inputIndex={connection.inputIndex}
+                  onDelete={() => deleteConnection(index)}
                 />
               )
             })}
           </svg>
 
-          {components.map((component) => (
+          {components.map(component => (
             <CircuitComponent
               key={component.id}
               component={component}
               onMove={moveComponent}
               onOutputClick={handleOutputClick}
               onInputClick={handleInputClick}
+              isOutputSelected={
+                selectedOutput === component.id
+              }
+              isInputConnected={isInputConnected}
             />
           ))}
 

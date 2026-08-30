@@ -169,10 +169,40 @@ body {
   width: 100%;
   height: 100%;
 
-  pointer-events: none;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.circuit-component {
+  z-index: 2;
 }
 
 .circuit-wire {
   stroke: #111827;
   stroke-width: 3;
+
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+.circuit-wire {
+  stroke: #111827;
+  stroke-width: 3;
+}
+
+.selected-port {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
+.port.selected-port {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
+}
+
+.connected-port {
+  background-color: #16a34a;
+  border-color: #16a34a;
 }
