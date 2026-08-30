@@ -17,6 +17,9 @@ C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NandGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NorGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NotGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\OrGate.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\persistence\SavedCircuit.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\persistence\SavedCircuitController.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\persistence\SavedCircuitRepository.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\SimulationController.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\TruthTableGenerator.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\Wire.java

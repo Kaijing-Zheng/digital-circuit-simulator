@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: circuit-sim-postgres
+    environment:
+      POSTGRES_DB: circuit_simulator
+      POSTGRES_USER: circuitsim
+      POSTGRES_PASSWORD: circuitsim
+    ports:
+      - "5432:5432"
+    volumes:
+      - circuit_sim_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  circuit_sim_postgres_data:

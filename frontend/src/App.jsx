@@ -4,19 +4,32 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
+
   const [components, setComponents] = useState([])
+
   const [connections, setConnections] = useState([])
+
   const [selectedOutput, setSelectedOutput] = useState(null)
 
   const [simulationResults, setSimulationResults] = useState({})
 
   const [statusMessage, setStatusMessage] = useState('')
+
+  const [circuitName, setCircuitName] = useState('')
+  const [savedCircuits, setSavedCircuits] = useState([])
+
+  const [selectedCircuitId, setSelectedCircuitId] = useState('')
   
   function clearCircuit() {
     setComponents([])
     setConnections([])
     setSelectedOutput(null)
     setSimulationResults({})
+  }
+
+  function clearSimulationResults() {
+    setSimulationResults({})
+    setStatusMessage('')
   }
 
   function handleOutputClick(componentId) {
@@ -59,6 +72,8 @@ function App() {
 
     setConnections([...connections, newConnection])
     setSelectedOutput(null)
+
+    clearSimulationResults()
   }
 
   function isInputConnected(componentId, inputIndex) {
@@ -73,6 +88,8 @@ function App() {
     setConnections(
       connections.filter((_, index) => index !== indexToDelete)
     )
+
+    clearSimulationResults()
   }
 
   function addComponent(type) {
@@ -90,6 +107,8 @@ function App() {
     }
 
     setComponents([...components, newComponent])
+
+    clearSimulationResults()
   }
 
   function deleteComponent(componentId) {
@@ -110,6 +129,8 @@ function App() {
     if (selectedOutput === componentId) {
       setSelectedOutput(null)
     }
+
+    clearSimulationResults()
   }
 
   function moveComponent(id, x, y) {
@@ -141,6 +162,8 @@ function App() {
         return component
       })
     )
+
+    clearSimulationResults()
   }
 
   async function simulateCircuit() {
@@ -169,7 +192,7 @@ function App() {
         }
       }
     }
-    
+
     const inputRequests = components
       .filter(component => component.type === 'INPUT')
       .map(component => ({
@@ -234,24 +257,154 @@ function App() {
     }
   }
 
+  async function saveCircuit() {
+    if (!circuitName.trim()) {
+      setStatusMessage('Enter a circuit name first')
+      return
+    }
+
+    const circuitData = {
+      components,
+      connections,
+    }
+
+    const requestBody = {
+      name: circuitName,
+      circuitData: JSON.stringify(circuitData),
+    }
+
+    try {
+      const response = await fetch('/api/circuits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to save circuit')
+      }
+
+      const savedCircuit = await response.json()
+
+      setStatusMessage(
+        `Saved circuit "${savedCircuit.name}"`
+      )
+    } catch (error) {
+      console.error(error)
+      setStatusMessage(error.message)
+    }
+  }
+
+  async function fetchSavedCircuits() {
+    try {
+      const response = await fetch('/api/circuits')
+
+      if (!response.ok) {
+        throw new Error('Failed to load saved circuits')
+      }
+
+      const circuits = await response.json()
+      setSavedCircuits(circuits)
+    } catch (error) {
+      console.error(error)
+      setStatusMessage(error.message)
+    }
+  }
+
+  async function loadCircuit() {
+    if (!selectedCircuitId) {
+      setStatusMessage('Select a circuit first')
+      return
+    }
+
+    try {
+      const response = await fetch(
+        `/api/circuits/${selectedCircuitId}`
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to load circuit')
+      }
+
+      const savedCircuit = await response.json()
+      const circuitData = JSON.parse(savedCircuit.circuitData)
+
+      setComponents(circuitData.components)
+      setConnections(circuitData.connections)
+      setCircuitName(savedCircuit.name)
+      setSelectedOutput(null)
+      setSimulationResults({})
+
+      setStatusMessage(
+        `Loaded circuit "${savedCircuit.name}"`
+      )
+    } catch (error) {
+      console.error(error)
+      setStatusMessage(error.message)
+    }
+  }
+
   return (
     <div className="app">
       <header className="header">
         <h1>Digital Circuit Simulator</h1>
 
-        <button 
-          className="simulate-button"
-          onClick={simulateCircuit}
-        >
-          Simulate
-        </button>
+        <div>
+          <input
+            type="text"
+            placeholder="Circuit name"
+            value={circuitName}
+            onChange={event => setCircuitName(event.target.value)}
+          />
 
-        <button
-          className="clear-button"
-          onClick={clearCircuit}
-        >
-          Clear Circuit
-        </button>
+          <button
+            className="simulate-button"
+            onClick={simulateCircuit}
+          >
+            Simulate
+          </button>
+
+          <button
+            onClick={saveCircuit}
+          >
+            Save
+          </button>
+
+          <button onClick={fetchSavedCircuits}>
+            Refresh Saved
+          </button>
+
+          <select
+            value={selectedCircuitId}
+            onChange={event =>
+              setSelectedCircuitId(event.target.value)
+            }
+          >
+            <option value="">Select saved circuit</option>
+
+            {savedCircuits.map(circuit => (
+              <option
+                key={circuit.id}
+                value={circuit.id}
+              >
+                {circuit.name}
+              </option>
+            ))}
+          </select>
+
+          <button onClick={loadCircuit}>
+            Load
+          </button>
+
+          <button
+            className="clear-button"
+            onClick={clearCircuit}
+          >
+            Clear Circuit
+          </button>
+        </div>
       </header>
 
       <div className="main-layout">
