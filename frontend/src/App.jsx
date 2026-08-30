@@ -1,10 +1,34 @@
 import CircuitComponent from './CircuitComponent'
 
+import CircuitWire from './CircuitWire'
+
 import { useState } from 'react'
 import './App.css'
 
 function App() {
   const [components, setComponents] = useState([])
+
+  const [connections, setConnections] = useState([])
+  const [selectedOutput, setSelectedOutput] = useState(null)
+
+  function handleOutputClick(componentId) {
+    setSelectedOutput(componentId)
+  }
+
+  function handleInputClick(destinationId, inputIndex) {
+    if (selectedOutput === null) {
+      return
+    }
+
+    const newConnection = {
+      sourceId: selectedOutput,
+      destinationId: destinationId,
+      inputIndex: inputIndex,
+    }
+
+    setConnections([...connections, newConnection])
+    setSelectedOutput(null)
+  }
 
   function addComponent(type) {
     const newComponent = {
@@ -61,13 +85,44 @@ function App() {
             <p>Click a component to add it to the circuit</p>
           )}
 
+          <svg className="wire-layer">
+            {connections.map((connection, index) => {
+              const source = components.find(
+                component => component.id === connection.sourceId
+              )
+
+              const destination = components.find(
+                component => component.id === connection.destinationId
+              )
+
+              if (!source || !destination) {
+                return null
+              }
+
+              return (
+                <CircuitWire
+                  key={index}
+                  source={source}
+                  destination={destination}
+                  inputIndex={connection.inputIndex}
+                />
+              )
+            })}
+          </svg>
+
           {components.map((component) => (
             <CircuitComponent
               key={component.id}
               component={component}
               onMove={moveComponent}
+              onOutputClick={handleOutputClick}
+              onInputClick={handleInputClick}
             />
           ))}
+
+          <div className="connection-debug">
+            Connections: {connections.length}
+          </div>
         </main>
       </div>
     </div>
