@@ -101,4 +101,59 @@ class CircuitTest {
 
         assertTrue(xorGate.evaluate());
     }
+
+    @Test
+    void circuitShouldRejectMultipleConnectionsToSameInput() {
+        Circuit circuit = new Circuit("Test Circuit");
+
+        Input a = new Input("A", true);
+        Input b = new Input("B", false);
+        AndGate gate = new AndGate("AND1");
+
+        circuit.addComponent(a);
+        circuit.addComponent(b);
+        circuit.addComponent(gate);
+
+        circuit.connect(a, gate, 0);
+
+        assertThrows(
+            IllegalStateException.class,
+            () -> circuit.connect(b, gate, 0)
+        );
+    }
+
+    @Test
+    void circuitShouldAllowConnectionsToDifferentInputs() {
+        Circuit circuit = new Circuit("Test Circuit");
+
+        Input a = new Input("A", true);
+        Input b = new Input("B", true);
+        AndGate gate = new AndGate("AND1");
+
+        circuit.addComponent(a);
+        circuit.addComponent(b);
+        circuit.addComponent(gate);
+
+        circuit.connect(a, gate, 0);
+        circuit.connect(b, gate, 1);
+
+        assertEquals(2, circuit.getWireCount());
+        assertTrue(gate.evaluate());
+    }
+
+    @Test
+    void circuitShouldRejectInvalidInputIndex() {
+        Circuit circuit = new Circuit("Test Circuit");
+
+        Input a = new Input("A", true);
+        AndGate gate = new AndGate("AND1");
+
+        circuit.addComponent(a);
+        circuit.addComponent(gate);
+
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> circuit.connect(a, gate, 2)
+        );
+    }
 }

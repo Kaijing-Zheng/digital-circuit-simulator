@@ -36,6 +36,19 @@ public class Circuit {
         Gate destination,
         int destinationInputIndex
     ) {
+        for (Wire wire : wires) {
+            if (wire.getDestination() == destination &&
+                wire.getDestinationInputIndex() == destinationInputIndex) {
+
+                throw new IllegalStateException(
+                    destination.getName()
+                    + " input "
+                    + destinationInputIndex
+                    + " is already connected"
+                );
+            }
+        }
+
         destination.connectInput(destinationInputIndex, source);
 
         Wire wire =
