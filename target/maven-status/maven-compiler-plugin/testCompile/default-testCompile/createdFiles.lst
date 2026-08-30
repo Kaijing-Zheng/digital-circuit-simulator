@@ -1,5 +1,6 @@
 com\circuitsim\WireTest.class
 com\circuitsim\InputTest.class
+com\circuitsim\CircuitSimulatorTest.class
 com\circuitsim\CircuitGraphTest.class
 com\circuitsim\OrGateTest.class
 com\circuitsim\XorGateTest.class
