@@ -888,32 +888,84 @@ button:active {
   border-color: #dbe3ee;
 }
 
-/* Result panel headers */
+/* =========================
+   DRAGGABLE RESULT PANELS
+   ========================= */
 
-.panel-header {
+.draggable-panel {
+  position: absolute;
+  z-index: 40;
+
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid #dbe3ee;
+  border-radius: 12px;
+
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.16),
+    0 4px 12px rgba(15, 23, 42, 0.08);
+
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+.draggable-panel-header {
+  height: 46px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 14px;
+
+  padding: 0 14px;
+
+  color: #0f172a;
+  background: #f8fafc;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  cursor: grab;
+  user-select: none;
 }
 
-.panel-header h3 {
+.draggable-panel-header:active {
+  cursor: grabbing;
+}
+
+.draggable-panel-header h2 {
   margin: 0;
+
+  color: #0f172a;
+
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+}
+
+.draggable-panel-content {
+  overflow: auto;
+
+  max-width: 100%;
+  max-height: calc(100% - 46px);
+
+  padding: 14px;
 }
 
 .panel-close-button {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
+
   flex-shrink: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 0;
+
   cursor: pointer;
 
   color: #64748b;
   background: transparent;
+
   border: 1px solid transparent;
   border-radius: 6px;
 
@@ -923,6 +975,328 @@ button:active {
 
 .panel-close-button:hover {
   color: #0f172a;
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+}
+
+/* =========================
+   TRUTH TABLE PANEL
+   ========================= */
+
+.truth-table-panel {
+  right: 22px;
+  bottom: 22px;
+
+  width: 390px;
+  max-width: calc(100% - 44px);
+  height: auto;
+  max-height: 430px;
+}
+
+.truth-table-panel table {
+  width: 100%;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  overflow: hidden;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+
+  font-size: 12px;
+}
+
+.truth-table-panel th,
+.truth-table-panel td {
+  min-width: 54px;
+
+  padding: 8px 12px;
+
+  text-align: center;
+
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.truth-table-panel th:last-child,
+.truth-table-panel td:last-child {
+  border-right: none;
+}
+
+.truth-table-panel tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.truth-table-panel th {
+  color: #475569;
   background: #f1f5f9;
-  border-color: #e2e8f0;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.truth-table-panel td {
+  color: #0f172a;
+  background: white;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-weight: 700;
+}
+
+.truth-table-panel tbody tr:hover td {
+  background: #f8fafc;
+}
+
+/* =========================
+   WAVEFORM PANEL
+   ========================= */
+
+.waveform-panel {
+  left: 22px;
+  bottom: 22px;
+
+  width: 720px;
+  max-width: calc(100% - 44px);
+
+  height: auto;
+  max-height: 440px;
+}
+
+.timing-diagram {
+  width: 100%;
+  height: auto;
+
+  display: block;
+
+  overflow: visible;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.time-grid-line {
+  stroke: #e2e8f0;
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+
+.time-label {
+  fill: #64748b;
+
+  font-size: 10px;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+}
+
+.signal-label {
+  fill: #334155;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+}
+
+.waveform-line {
+  stroke: #2563eb;
+  stroke-width: 3;
+
+  fill: none;
+
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.unknown-signal {
+  stroke: #94a3b8;
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.logic-label {
+  fill: #0f172a;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+}
+
+/* =========================
+   SCROLLBARS
+   ========================= */
+
+.sidebar::-webkit-scrollbar,
+.draggable-panel-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.draggable-panel-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.draggable-panel-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1350px) {
+  .header {
+    align-items: flex-start;
+  }
+
+  .header h1 {
+    margin-top: 9px;
+  }
+
+  .header > div {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 1150px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .header {
+    gap: 16px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .header h1 {
+    font-size: 19px;
+  }
+
+  .header button {
+    padding: 0 9px;
+    font-size: 12px;
+  }
+
+  .header input {
+    width: 135px;
+  }
+
+  .header select {
+    width: 150px;
+  }
+}
+
+@media (max-width: 900px) {
+  body {
+    min-width: 800px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header h1 {
+    margin-top: 0;
+  }
+
+  .header > div {
+    justify-content: flex-start;
+  }
+
+  .sidebar {
+    width: 205px;
+  }
+
+  .waveform-panel,
+  .truth-table-panel {
+    left: 12px;
+    right: auto;
+    bottom: 12px;
+
+    width: calc(100% - 24px);
+    max-width: none;
+  }
+}
+
+/* =========================
+   FINAL POLISH
+   ========================= */
+
+.header {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.header > div {
+  gap: 7px;
+}
+
+.header button {
+  padding-left: 11px;
+  padding-right: 11px;
+}
+
+.component-button {
+  min-height: 60px;
+}
+
+.component-symbol {
+  height: 24px;
+}
+
+.sidebar {
+  width: 230px;
+  padding-top: 20px;
+}
+
+.workspace > p {
+  padding: 10px 16px;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  border: 1px solid rgba(203, 213, 225, 0.8);
+  border-radius: 999px;
+
+  box-shadow:
+    0 4px 16px rgba(15, 23, 42, 0.05);
+
+  backdrop-filter: blur(4px);
+}
+
+.circuit-component {
+  border-color: #cbd5e1;
+}
+
+.circuit-component:hover {
+  border-color: #60a5fa;
+
+  box-shadow:
+    0 8px 18px rgba(15, 23, 42, 0.12),
+    0 0 0 2px rgba(96, 165, 250, 0.12);
 }

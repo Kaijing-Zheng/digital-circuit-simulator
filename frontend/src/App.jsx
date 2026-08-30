@@ -1,5 +1,6 @@
 import CircuitComponent from './CircuitComponent'
 import CircuitWire from './CircuitWire'
+import DraggablePanel from './DraggablePanel'
 import { useState, useEffect } from 'react'
 import './App.css'
 
@@ -1380,23 +1381,11 @@ function App() {
           )}
 
           {waveforms && (
-            <div className="waveform-panel">
-              <div className="panel-header">
-                <h3>
-                  Timing Waveforms
-                </h3>
-
-                <button
-                  className="panel-close-button"
-                  onClick={() =>
-                    setWaveforms(null)
-                  }
-                  title="Close"
-                >
-                  ×
-                </button>
-              </div>
-
+            <DraggablePanel
+              title="Timing Waveforms"
+              className="waveform-panel"
+              onClose={() => setWaveforms(null)}
+            >
               <svg
                 className="timing-diagram"
                 viewBox="0 0 700 260"
@@ -1635,27 +1624,15 @@ function App() {
                   )
                 })()}
               </svg>
-            </div>
+            </DraggablePanel>
           )}
 
           {truthTable && (
-            <div className="truth-table-panel">
-              <div className="panel-header">
-                <h3>
-                  Truth Table
-                </h3>
-
-                <button
-                  className="panel-close-button"
-                  onClick={() =>
-                    setTruthTable(null)
-                  }
-                  title="Close"
-                >
-                  ×
-                </button>
-              </div>
-
+            <DraggablePanel
+              title="Truth Table"
+              className="truth-table-panel"
+              onClose={() => setTruthTable(null)}
+            >
               <table>
                 <thead>
                   <tr>
@@ -1726,7 +1703,7 @@ function App() {
                   )}
                 </tbody>
               </table>
-            </div>
+            </DraggablePanel>
           )}
         </main>
       </div>
