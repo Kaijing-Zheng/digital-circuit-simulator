@@ -1,6 +1,6 @@
 import CircuitComponent from './CircuitComponent'
 import CircuitWire from './CircuitWire'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
@@ -19,12 +19,19 @@ function App() {
   const [savedCircuits, setSavedCircuits] = useState([])
 
   const [selectedCircuitId, setSelectedCircuitId] = useState('')
+
+  useEffect(() => {
+    fetchSavedCircuits()
+  }, [])
   
   function clearCircuit() {
     setComponents([])
     setConnections([])
     setSelectedOutput(null)
     setSimulationResults({})
+
+    setSelectedCircuitId('')
+    setCircuitName('')
   }
 
   function clearSimulationResults() {
@@ -273,9 +280,17 @@ function App() {
       circuitData: JSON.stringify(circuitData),
     }
 
+    const isUpdating = selectedCircuitId !== ''
+
+    const url = isUpdating
+      ? `/api/circuits/${selectedCircuitId}`
+      : '/api/circuits'
+
+    const method = isUpdating ? 'PUT' : 'POST'
+
     try {
-      const response = await fetch('/api/circuits', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -283,14 +298,24 @@ function App() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to save circuit')
+        throw new Error(
+          isUpdating
+            ? 'Failed to update circuit'
+            : 'Failed to save circuit'
+        )
       }
 
       const savedCircuit = await response.json()
 
+      setSelectedCircuitId(savedCircuit.id.toString())
+
       setStatusMessage(
-        `Saved circuit "${savedCircuit.name}"`
+        isUpdating
+          ? `Updated circuit "${savedCircuit.name}"`
+          : `Saved circuit "${savedCircuit.name}"`
       )
+
+      fetchSavedCircuits()
     } catch (error) {
       console.error(error)
       setStatusMessage(error.message)
@@ -346,6 +371,33 @@ function App() {
     }
   }
 
+  async function deleteSavedCircuit() {
+    if (!selectedCircuitId) {
+      setStatusMessage('Select a circuit first')
+      return
+    }
+
+    try {
+      const response = await fetch(
+        `/api/circuits/${selectedCircuitId}`,
+        {
+          method: 'DELETE',
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to delete circuit')
+      }
+
+      setSelectedCircuitId('')
+      setStatusMessage('Saved circuit deleted')
+      fetchSavedCircuits()
+    } catch (error) {
+      console.error(error)
+      setStatusMessage(error.message)
+    }
+  }
+
   return (
     <div className="app">
       <header className="header">
@@ -372,10 +424,6 @@ function App() {
             Save
           </button>
 
-          <button onClick={fetchSavedCircuits}>
-            Refresh Saved
-          </button>
-
           <select
             value={selectedCircuitId}
             onChange={event =>
@@ -396,6 +444,10 @@ function App() {
 
           <button onClick={loadCircuit}>
             Load
+          </button>
+
+          <button onClick={deleteSavedCircuit}>
+            Delete Saved
           </button>
 
           <button

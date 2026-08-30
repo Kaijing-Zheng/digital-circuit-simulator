@@ -31,4 +31,32 @@ public class SavedCircuitController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCircuit(@PathVariable Long id) {
+        if (!repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SavedCircuit> updateCircuit(
+            @PathVariable Long id,
+            @RequestBody SavedCircuit updatedCircuit) {
+
+        return repository.findById(id)
+                .map(existingCircuit -> {
+                    existingCircuit.setName(updatedCircuit.getName());
+                    existingCircuit.setCircuitData(updatedCircuit.getCircuitData());
+
+                    SavedCircuit saved =
+                            repository.save(existingCircuit);
+
+                    return ResponseEntity.ok(saved);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
