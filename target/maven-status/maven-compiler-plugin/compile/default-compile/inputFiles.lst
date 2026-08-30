@@ -1,3 +1,6 @@
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\AndGate.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\Component.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\Input.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\NotGate.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\OrGate.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\XorGate.java

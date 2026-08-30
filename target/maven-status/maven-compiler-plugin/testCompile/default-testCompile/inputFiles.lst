@@ -1,2 +1,5 @@
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\AndGateTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\InputTest.java
+C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\NotGateTest.java
+C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\OrGateTest.java
+C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\XorGateTest.java
