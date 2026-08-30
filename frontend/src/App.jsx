@@ -10,6 +10,8 @@ function App() {
 
   const [simulationResults, setSimulationResults] = useState({})
 
+  const [statusMessage, setStatusMessage] = useState('')
+  
   function clearCircuit() {
     setComponents([])
     setConnections([])
@@ -142,6 +144,32 @@ function App() {
   }
 
   async function simulateCircuit() {
+    setStatusMessage('')
+
+    for (const component of components) {
+      if (component.type === 'INPUT') {
+        continue
+      }
+
+      const requiredInputs =
+        component.type === 'NOT' ? 1 : 2
+
+      for (let inputIndex = 0; inputIndex < requiredInputs; inputIndex++) {
+        const connected = connections.some(
+          connection =>
+            connection.destinationId === component.id &&
+            connection.inputIndex === inputIndex
+        )
+
+        if (!connected) {
+          setStatusMessage(
+            `${component.name} input ${inputIndex + 1} is not connected`
+          )
+          return
+        }
+      }
+    }
+    
     const inputRequests = components
       .filter(component => component.type === 'INPUT')
       .map(component => ({
@@ -183,8 +211,6 @@ function App() {
       outputs: outputNames,
     }
 
-    console.log('Sending simulation request:', requestBody)
-
     try {
       const response = await fetch('/api/simulate', {
         method: 'POST',
@@ -200,11 +226,11 @@ function App() {
 
       const result = await response.json()
 
-      console.log('Simulation result:', result)
-
       setSimulationResults(result.outputs)
+      setStatusMessage('Simulation completed successfully')
     } catch (error) {
       console.error('Simulation error:', error)
+      setStatusMessage(error.message)
     }
   }
 
@@ -262,6 +288,12 @@ function App() {
         </aside>
 
         <main className="workspace">
+          {statusMessage && (
+            <div className="status-message">
+              {statusMessage}
+            </div>
+          )}
+
           {components.length === 0 && (
             <p>Click a component to add it to the circuit</p>
           )}
