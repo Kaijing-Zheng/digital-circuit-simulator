@@ -34,16 +34,10 @@ Users can construct circuits visually, connect logic components, simulate output
 
 ```mermaid
 flowchart LR
-    Browser["Browser"]
-    Frontend["React Frontend<br/>Nginx"]
-    API["Spring Boot REST API"]
-    Engine["Java Simulation Engine"]
-    DB[("PostgreSQL")]
-
-    Browser --> Frontend
-    Frontend -->|REST API| API
-    API --> Engine
-    API -->|Spring Data JPA| DB
+    Browser[Browser] --> Frontend[React Frontend]
+    Frontend --> API[Spring Boot REST API]
+    API --> Engine[Java Simulation Engine]
+    API --> DB[(PostgreSQL)]
 ```
 
 The application is divided into three main layers:
