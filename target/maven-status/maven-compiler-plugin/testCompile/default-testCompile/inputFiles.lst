@@ -6,5 +6,6 @@ C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\HalfAdderTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\InputTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\NotGateTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\OrGateTest.java
+C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\TruthTableGeneratorTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\WireTest.java
 C:\dev\digital-circuit-simulator\src\test\java\com\circuitsim\XorGateTest.java
