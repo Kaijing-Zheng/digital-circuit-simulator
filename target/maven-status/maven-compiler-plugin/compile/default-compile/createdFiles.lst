@@ -1,5 +1,6 @@
 com\circuitsim\HalfAdder.class
 com\circuitsim\AndGate.class
+com\circuitsim\CircuitGraph.class
 com\circuitsim\Component.class
 com\circuitsim\OrGate.class
 com\circuitsim\Wire.class
