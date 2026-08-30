@@ -1,4 +1,6 @@
 com\circuitsim\AndGate.class
+com\circuitsim\HealthController.class
+com\circuitsim\CircuitSimulatorApplication.class
 com\circuitsim\NorGate.class
 com\circuitsim\TruthTableGenerator.class
 com\circuitsim\XorGate.class
