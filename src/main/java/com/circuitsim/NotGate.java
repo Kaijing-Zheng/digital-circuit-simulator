@@ -1,5 +1,7 @@
 package com.circuitsim;
 
+import java.util.Map;
+
 public class NotGate extends Gate {
 
     public NotGate(String name) {
@@ -15,5 +17,10 @@ public class NotGate extends Gate {
     @Override
     public boolean evaluate() {
         return !getInput(0).evaluate();
+    }
+
+    @Override
+    public boolean evaluate(Map<Component, Boolean> values) {
+        return !values.get(getInput(0));
     }
 }

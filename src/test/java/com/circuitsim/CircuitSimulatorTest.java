@@ -63,4 +63,40 @@ class CircuitSimulatorTest {
         assertTrue(results.get(andGate));
         assertTrue(results.get(xorGate));
     }
+
+    @Test
+    void simulatorShouldEvaluateLongerGateChain() {
+        Circuit circuit = new Circuit("Gate Chain");
+
+        Input a = new Input("A", true);
+        Input b = new Input("B", true);
+        Input c = new Input("C", false);
+
+        AndGate andGate = new AndGate("AND1");
+        NotGate notGate = new NotGate("NOT1");
+        OrGate orGate = new OrGate("OR1");
+
+        circuit.addComponent(a);
+        circuit.addComponent(b);
+        circuit.addComponent(c);
+        circuit.addComponent(andGate);
+        circuit.addComponent(notGate);
+        circuit.addComponent(orGate);
+
+        circuit.connect(a, andGate, 0);
+        circuit.connect(b, andGate, 1);
+
+        circuit.connect(andGate, notGate, 0);
+
+        circuit.connect(notGate, orGate, 0);
+        circuit.connect(c, orGate, 1);
+
+        CircuitSimulator simulator = new CircuitSimulator();
+
+        Map<Component, Boolean> results = simulator.simulate(circuit);
+
+        assertTrue(results.get(andGate));
+        assertFalse(results.get(notGate));
+        assertFalse(results.get(orGate));
+    }
 }

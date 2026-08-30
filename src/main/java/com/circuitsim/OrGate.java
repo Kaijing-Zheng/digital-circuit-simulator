@@ -1,5 +1,7 @@
 package com.circuitsim;
 
+import java.util.Map;
+
 public class OrGate extends Gate {
 
     public OrGate(String name) {
@@ -16,5 +18,10 @@ public class OrGate extends Gate {
     @Override
     public boolean evaluate() {
         return getInput(0).evaluate() || getInput(1).evaluate();
+    }
+
+    @Override
+    public boolean evaluate(Map<Component, Boolean> values) {
+        return values.get(getInput(0)) || values.get(getInput(1));
     }
 }

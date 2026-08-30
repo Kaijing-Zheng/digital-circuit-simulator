@@ -14,7 +14,7 @@ public class CircuitSimulator {
         Map<Component, Boolean> results = new HashMap<>();
 
         for (Component component : order) {
-            boolean value = component.evaluate();
+            boolean value = component.evaluate(results);
             results.put(component, value);
         }
 
