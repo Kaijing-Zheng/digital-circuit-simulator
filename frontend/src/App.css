@@ -230,3 +230,29 @@ body {
   font-size: 14px;
   z-index: 10;
 }
+
+.truth-table-panel {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 16px;
+  z-index: 20;
+}
+
+.truth-table-panel table {
+  border-collapse: collapse;
+}
+
+.truth-table-panel th,
+.truth-table-panel td {
+  border: 1px solid #d1d5db;
+  padding: 6px 10px;
+  text-align: center;
+}
+
+.truth-table-panel h3 {
+  margin-top: 0;
+}

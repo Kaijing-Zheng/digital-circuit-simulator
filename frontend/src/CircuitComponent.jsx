@@ -9,8 +9,6 @@ function CircuitComponent({
   simulationValue,
   onDeleteComponent
 }) {
-  console.log(component.name, typeof onDeleteComponent)
-
   function handleMouseDown(event) {
     const startMouseX = event.clientX
     const startMouseY = event.clientY
@@ -39,11 +37,11 @@ function CircuitComponent({
   }
 
   const inputCount =
-    component.type === 'NOT'
-      ? 1
-      : component.type === 'INPUT'
+    component.type === 'INPUT'
         ? 0
-        : 2
+        : component.type === 'NOT' || component.type === 'OUTPUT'
+          ? 1
+          : 2
 
   return (
     <div
@@ -96,15 +94,17 @@ function CircuitComponent({
         ))}
       </div>
 
-      <div
-        className={
-          isOutputSelected
-            ? 'port output-port selected-port'
-            : 'port output-port'
-        }
-        onMouseDown={(event) => event.stopPropagation()}
-        onClick={() => onOutputClick(component.id)}
-      />
+      {component.type !== 'OUTPUT' && (
+        <div
+            className={
+            isOutputSelected
+                ? 'port output-port selected-port'
+                : 'port output-port'
+            }
+            onMouseDown={(event) => event.stopPropagation()}
+            onClick={() => onOutputClick(component.id)}
+        />
+        )}
     </div>
   )
 }

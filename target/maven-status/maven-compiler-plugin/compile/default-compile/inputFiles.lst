@@ -4,6 +4,7 @@ C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\GateRequest.ja
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\InputRequest.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\SimulationRequest.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\SimulationResponse.java
+C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\api\TruthTableResponse.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\Circuit.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\CircuitGraph.java
 C:\dev\digital-circuit-simulator\src\main\java\com\circuitsim\CircuitSimulator.java

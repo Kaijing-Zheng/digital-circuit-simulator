@@ -16,6 +16,7 @@ com\circuitsim\api\InputRequest.class
 com\circuitsim\persistence\SavedCircuitController.class
 com\circuitsim\api\GateRequest.class
 com\circuitsim\XorGate.class
+com\circuitsim\api\TruthTableResponse.class
 com\circuitsim\SimulationController.class
 com\circuitsim\api\ConnectionRequest.class
 com\circuitsim\NandGate.class

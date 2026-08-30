@@ -14,7 +14,10 @@ function CircuitWire({
 
   let endY
 
-  if (destination.type === 'NOT') {
+  if (
+    destination.type === 'NOT' ||
+    destination.type === 'OUTPUT'
+  ) {
     endY = destination.y + gateHeight / 2
   } else {
     if (inputIndex === 0) {
@@ -24,14 +27,21 @@ function CircuitWire({
     }
   }
 
+  const middleX = (startX + endX) / 2
+
+  const path = `
+    M ${startX} ${startY}
+    L ${middleX} ${startY}
+    L ${middleX} ${endY}
+    L ${endX} ${endY}
+  `
+
   return (
-    <line
-      x1={startX}
-      y1={startY}
-      x2={endX}
-      y2={endY}
+    <path
+      d={path}
       className="circuit-wire"
       onClick={onDelete}
+      fill="none"
     />
   )
 }
