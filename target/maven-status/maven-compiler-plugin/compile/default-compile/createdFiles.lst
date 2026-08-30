@@ -5,3 +5,4 @@ com\circuitsim\OrGate.class
 com\circuitsim\Input.class
 com\circuitsim\XorGate.class
 com\circuitsim\NotGate.class
+com\circuitsim\Circuit.class
