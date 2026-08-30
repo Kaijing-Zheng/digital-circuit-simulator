@@ -93,4 +93,52 @@ class CircuitGraphTest {
         assertTrue(order.indexOf(andGate) < order.indexOf(xorGate));
         assertTrue(order.indexOf(c) < order.indexOf(xorGate));
     }
+
+    @Test
+    void topologicalSortShouldDetectCycle() {
+        Circuit circuit = new Circuit("Cyclic Circuit");
+
+        Input a = new Input("A", true);
+        AndGate andGate = new AndGate("AND1");
+        NotGate notGate = new NotGate("NOT1");
+
+        circuit.addComponent(a);
+        circuit.addComponent(andGate);
+        circuit.addComponent(notGate);
+
+        circuit.connect(a, andGate, 0);
+        circuit.connect(notGate, andGate, 1);
+        circuit.connect(andGate, notGate, 0);
+
+        assertThrows(
+            IllegalStateException.class,
+            () -> new CircuitGraph(circuit).topologicalSort()
+        );
+    }
+
+    @Test
+    void topologicalSortShouldProcessAllComponentsInValidCircuit() {
+        Circuit circuit = new Circuit("Valid Circuit");
+
+        Input a = new Input("A", true);
+        Input b = new Input("B", false);
+
+        AndGate andGate = new AndGate("AND1");
+        NotGate notGate = new NotGate("NOT1");
+
+        circuit.addComponent(a);
+        circuit.addComponent(b);
+        circuit.addComponent(andGate);
+        circuit.addComponent(notGate);
+
+        circuit.connect(a, andGate, 0);
+        circuit.connect(b, andGate, 1);
+        circuit.connect(andGate, notGate, 0);
+
+        CircuitGraph graph = new CircuitGraph(circuit);
+
+        List<Component> order = graph.topologicalSort();
+
+        assertEquals(4, order.size());
+    }
 }

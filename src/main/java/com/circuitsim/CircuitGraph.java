@@ -80,6 +80,10 @@ public class CircuitGraph {
             }
         }
 
+        if (result.size() != adjacencyList.size()) {
+            throw new IllegalStateException("Circuit contains a cycle");
+        }
+
         return result;
     }
 }
