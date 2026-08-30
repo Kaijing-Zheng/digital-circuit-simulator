@@ -34,4 +34,25 @@ class CircuitTest {
 
         assertEquals("Half Adder", circuit.getName());
     }
+
+    @Test
+    void circuitShouldStoreWires() {
+        Circuit circuit = new Circuit("Test Circuit");
+
+        Input a = new Input("A", true);
+        Input b = new Input("B", false);
+        AndGate gate = new AndGate("AND1", a, b);
+
+        circuit.addComponent(a);
+        circuit.addComponent(b);
+        circuit.addComponent(gate);
+
+        Wire wire1 = new Wire(a, gate);
+        Wire wire2 = new Wire(b, gate);
+
+        circuit.addWire(wire1);
+        circuit.addWire(wire2);
+
+        assertEquals(2, circuit.getWireCount());
+    }
 }
