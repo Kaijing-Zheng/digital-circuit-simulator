@@ -1,6 +1,7 @@
-com\circuitsim\XorGate.class
+com\circuitsim\HalfAdder.class
 com\circuitsim\AndGate.class
-com\circuitsim\NotGate.class
 com\circuitsim\Component.class
 com\circuitsim\OrGate.class
 com\circuitsim\Input.class
+com\circuitsim\XorGate.class
+com\circuitsim\NotGate.class
