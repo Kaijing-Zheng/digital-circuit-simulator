@@ -1340,3 +1340,35 @@ button:active {
 .component-context-menu .context-menu-delete:hover {
   background: #fef2f2;
 }
+
+.boolean-expression-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding: 14px;
+
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.expression-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.expression-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.expression-value {
+  font-family: monospace;
+  font-size: 14px;
+  color: #111827;
+}

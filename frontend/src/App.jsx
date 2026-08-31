@@ -18,6 +18,7 @@ function App() {
   const [truthTable, setTruthTable] = useState(null)
   const [simulationSessionId, setSimulationSessionId] = useState(null)
   const [waveforms, setWaveforms] = useState(null)
+  const [booleanExpressions, setBooleanExpressions] = useState(null)
 
   useEffect(() => {
     fetchSavedCircuits()
@@ -322,6 +323,221 @@ function App() {
 
     return simulationResults[source.name]
   }
+
+  function buildBooleanExpression(componentId, format = 'readable') {
+    const component = components.find(
+      component => component.id === componentId
+    )
+
+    if (!component) {
+      return {
+        expression: '?',
+        precedence: 0,
+      }
+    }
+
+    if (component.type === 'INPUT') {
+      return {
+        expression: component.name,
+        precedence: 4,
+      }
+    }
+
+    const inputConnections = connections
+      .filter(
+        connection =>
+          connection.destinationId === componentId
+      )
+      .sort(
+        (a, b) =>
+          a.inputIndex - b.inputIndex
+      )
+
+    if (component.type === 'OUTPUT') {
+      if (inputConnections.length === 0) {
+        return {
+          expression: '?',
+          precedence: 0,
+        }
+      }
+
+      return buildBooleanExpression(
+        inputConnections[0].sourceId,
+        format
+      )
+    }
+
+    const inputResults = inputConnections.map(
+      connection =>
+        buildBooleanExpression(
+          connection.sourceId,
+          format
+        )
+    )
+
+    if (inputResults.length === 0) {
+      return {
+        expression: '?',
+        precedence: 0,
+      }
+    }
+
+    const isSymbol = format === 'symbol'
+
+    function wrapIfNeeded(result, parentPrecedence) {
+      if (result.precedence < parentPrecedence) {
+        return `(${result.expression})`
+      }
+
+      return result.expression
+    }
+
+    if (component.type === 'NOT') {
+      const input = inputResults[0]
+
+      if (isSymbol) {
+        const value = wrapIfNeeded(
+          input,
+          3
+        )
+
+        return {
+          expression: `¬${value}`,
+          precedence: 3,
+        }
+      }
+
+      return {
+        expression: `NOT(${input.expression})`,
+        precedence: 3,
+      }
+    }
+
+    if (inputResults.length < 2) {
+      return {
+        expression: '?',
+        precedence: 0,
+      }
+    }
+
+    const left = inputResults[0]
+    const right = inputResults[1]
+
+    if (component.type === 'AND') {
+      const precedence = 2
+
+      return {
+        expression: `${wrapIfNeeded(
+          left,
+          precedence
+        )} ${
+          isSymbol ? '·' : 'AND'
+        } ${wrapIfNeeded(
+          right,
+          precedence
+        )}`,
+        precedence,
+      }
+    }
+
+    if (component.type === 'OR') {
+      const precedence = 1
+
+      return {
+        expression: `${wrapIfNeeded(
+          left,
+          precedence
+        )} ${
+          isSymbol ? '+' : 'OR'
+        } ${wrapIfNeeded(
+          right,
+          precedence
+        )}`,
+        precedence,
+      }
+    }
+
+    if (component.type === 'XOR') {
+      const precedence = 1
+
+      return {
+        expression: `${wrapIfNeeded(
+          left,
+          precedence
+        )} ${
+          isSymbol ? '⊕' : 'XOR'
+        } ${wrapIfNeeded(
+          right,
+          precedence
+        )}`,
+        precedence,
+      }
+    }
+
+    if (
+      component.type === 'NAND' ||
+      component.type === 'NOR' ||
+      component.type === 'XNOR'
+    ) {
+      let operator
+
+      if (component.type === 'NAND') {
+        operator = isSymbol ? '·' : 'AND'
+      }
+
+      if (component.type === 'NOR') {
+        operator = isSymbol ? '+' : 'OR'
+      }
+
+      if (component.type === 'XNOR') {
+        operator = isSymbol ? '⊕' : 'XOR'
+      }
+
+      const inner = `${left.expression} ${operator} ${right.expression}`
+
+      return {
+        expression: isSymbol
+          ? `¬(${inner})`
+          : `NOT(${inner})`,
+        precedence: 3,
+      }
+    }
+
+    return {
+      expression: '?',
+      precedence: 0,
+    }
+  }
+
+  function generateBooleanExpressions() {
+    const outputs = components.filter(
+      component => component.type === 'OUTPUT'
+    )
+
+    if (outputs.length === 0) {
+      setStatusMessage(
+        'Add at least one OUTPUT component'
+      )
+      return
+    }
+
+    const expressions = outputs.map(output => ({
+      name: output.name,
+
+      readable: buildBooleanExpression(
+        output.id,
+        'readable'
+      ).expression,
+
+      symbol: buildBooleanExpression(
+        output.id,
+        'symbol'
+      ).expression,
+    }))
+
+    setBooleanExpressions(expressions)
+  }
+
 
   function validateConnections() {
     for (const component of components) {
@@ -1103,11 +1319,15 @@ function App() {
           </button>
 
           <button
-            onClick={
-              generateTruthTable
-            }
+            onClick={generateTruthTable}
           >
             Truth Table
+          </button>
+
+          <button
+            onClick={generateBooleanExpressions}
+          >
+            Boolean Expression
           </button>
 
           <button
@@ -1773,6 +1993,45 @@ function App() {
                   )}
                 </tbody>
               </table>
+            </DraggablePanel>
+          )}
+
+          {booleanExpressions && (
+            <DraggablePanel
+              title="Boolean Expressions"
+              className="boolean-expression-panel"
+              onClose={() => setBooleanExpressions(null)}
+            >
+              <div className="boolean-expression-list">
+                {booleanExpressions.map(item => (
+                  <div
+                    key={item.name}
+                    className="boolean-expression-item"
+                  >
+                    <strong>{item.name}</strong>
+
+                    <div className="expression-section">
+                      <span className="expression-label">
+                        Boolean notation
+                      </span>
+
+                      <span className="expression-value">
+                        {item.symbol}
+                      </span>
+                  </div>
+
+                  <div className="expression-section">
+                    <span className="expression-label">
+                      Readable form
+                    </span>
+
+                    <span className="expression-value">
+                      {item.readable}
+                    </span>
+                  </div>
+                </div>
+                ))}
+              </div>
             </DraggablePanel>
           )}
         </main>
