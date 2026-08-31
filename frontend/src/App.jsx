@@ -197,6 +197,70 @@ function App() {
     invalidateSimulationSession()
   }
 
+  function renameComponent(componentId, newName) {
+    const trimmedName = newName.trim()
+
+    if (!trimmedName) {
+      setStatusMessage('Component name cannot be empty')
+      return false
+    }
+
+    const nameAlreadyExists = components.some(
+      component =>
+        component.id !== componentId &&
+        component.name === trimmedName
+    )
+
+    if (nameAlreadyExists) {
+      setStatusMessage(
+        `A component named "${trimmedName}" already exists`
+      )
+      return false
+    }
+
+    setComponents(
+      components.map(component =>
+        component.id === componentId
+          ? {
+              ...component,
+              name: trimmedName,
+            }
+          : component
+      )
+    )
+
+    invalidateSimulationSession()
+
+    return true
+  }
+
+  function duplicateComponent(componentId) {
+    const componentToDuplicate = components.find(
+      component => component.id === componentId
+    )
+
+    if (!componentToDuplicate) {
+      return
+    }
+
+    const duplicatedComponent = {
+      ...componentToDuplicate,
+      id: Date.now(),
+      name: getNextComponentName(
+        componentToDuplicate.type
+      ),
+      x: componentToDuplicate.x + 30,
+      y: componentToDuplicate.y + 30,
+    }
+
+    setComponents([
+      ...components,
+      duplicatedComponent,
+    ])
+
+    invalidateSimulationSession()
+  }
+
   function moveComponent(id, x, y) {
     setComponents(
       components.map(component => {
@@ -1372,6 +1436,12 @@ function App() {
                   getSimulationValue(
                     component
                   )
+                }
+                onRenameComponent={
+                  renameComponent
+                }
+                onDuplicateComponent={
+                  duplicateComponent
                 }
                 onDeleteComponent={
                   deleteComponent
